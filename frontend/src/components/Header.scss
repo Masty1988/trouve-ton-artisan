@@ -1,0 +1,21 @@
+.header {
+  .logo {
+    max-height: 50px;
+  }
+  
+  .logo-link {
+    text-decoration: none;
+  }
+  
+  .search-box {
+    input {
+      border-radius: 20px;
+      border: 1px solid #ddd;
+      
+      &:focus {
+        border-color: #0074c7;
+        box-shadow: 0 0 0 0.2rem rgba(0, 116, 199, 0.25);
+      }
+    }
+  }
+}
