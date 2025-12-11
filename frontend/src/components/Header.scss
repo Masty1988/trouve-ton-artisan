@@ -1,6 +1,18 @@
 .header {
-  .logo {
-    max-height: 50px;
+  .logo-text {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #00497c;
+    margin: 0;
+    line-height: 1.2;
+    
+    small {
+      display: block;
+      font-size: 0.6rem;
+      font-weight: 400;
+      color: #0074c7;
+      margin-top: 0.2rem;
+    }
   }
   
   .logo-link {
