@@ -1,0 +1,47 @@
+.not-found {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 0;
+  
+  .error-content {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .error-illustration {
+    .emoji {
+      font-size: 5rem;
+      margin: 0 1rem;
+      animation: bounce 2s infinite;
+    }
+  }
+  
+  .error-code {
+    font-size: 6rem;
+    font-weight: 700;
+    color: #00497c;
+    margin: 2rem 0 1rem;
+  }
+  
+  .error-title {
+    font-size: 2rem;
+    color: #00497c;
+    margin-bottom: 1rem;
+  }
+  
+  .error-message {
+    font-size: 1.1rem;
+    color: #666;
+  }
+  
+  @keyframes bounce {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+}

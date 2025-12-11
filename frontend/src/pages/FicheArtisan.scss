@@ -1,0 +1,42 @@
+.fiche-artisan {
+  min-height: 60vh;
+  
+  .artisan-header {
+    h1 {
+      color: #00497c;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+  }
+  
+  .about-section {
+    h2 {
+      color: #00497c;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    p {
+      line-height: 1.6;
+    }
+  }
+  
+  .contact-form-box {
+    background: #f8f9fa;
+    padding: 2rem;
+    border-radius: 10px;
+    border: 2px solid #00497c;
+    
+    h3 {
+      color: #00497c;
+      font-size: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+  }
+  
+  .stars {
+    .star {
+      font-size: 1.2rem;
+    }
+  }
+}
