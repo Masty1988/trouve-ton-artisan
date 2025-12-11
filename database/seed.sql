@@ -72,6 +72,6 @@ INSERT INTO artisans (nom, email, site_web, note, ville, a_propos, top, speciali
 ('Royden Charbonneau', 'r.charbonneau@gmail.com', NULL, 3.8, 'Saint-Priest', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', FALSE, 12),
 ('Leala Dennis', 'l.dennis@hotmail.fr', 'https://coiffure-leala-chambery.fr', 3.8, 'Chambéry', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', FALSE, 12),
 ("C'est sup'hair", 'sup-hair@gmail.com', NULL, 4.1, 'Romans-sur-Isère', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', FALSE, 12),
-('Fleurs & Nature', 'contact@fleurs-nature.fr', 'https://fleurs-nature.fr', 4.7, 'Lyon', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', FALSE, 13),
-('Toilettage Canin', 'contact@toilettage-canin.fr', NULL, 4.2, 'Lyon', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', FALSE, 14),
-('Studio Webdesign', 'contact@studio-webdesign.fr', 'https://studio-webdesign.fr', 4.8, 'Lyon', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', FALSE, 15);
+('Le monde des fleurs', 'contact@le-monde-des-fleurs-annonay.fr', 'https://le-monde-des-fleurs-annonay.fr', 4.6, 'Annonay', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', FALSE, 13),
+('Valérie Laderoute', 'v-laredoute@gmail.com', NULL, 4.5, 'Valence', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', FALSE, 14),
+('CM Graphisme', 'contact@cm-graphisme.com', 'https://cm-graphisme.com', 4.4, 'Valence', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', FALSE, 15);
