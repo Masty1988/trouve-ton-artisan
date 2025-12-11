@@ -4,6 +4,7 @@ import './Header.scss';
 
 const Header = ({ categories }) => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleSearch = (e) => {
@@ -17,7 +18,7 @@ const Header = ({ categories }) => {
     <header className="header">
       <div className="container">
         <div className="row align-items-center">
-          <div className="col-md-3">
+          <div className="col-6 col-md-3">
             <Link to="/" className="logo-link">
               <h1 className="logo-text">
                 Trouve ton artisan !
@@ -26,13 +27,28 @@ const Header = ({ categories }) => {
             </Link>
           </div>
           
-          <div className="col-md-6">
+          {/* Burger button (visible sur mobile uniquement) */}
+          <div className="col-6 d-md-none text-end">
+            <button 
+              className="burger-btn"
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label="Menu"
+            >
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+          </div>
+          
+          {/* Navigation */}
+          <div className={`col-md-6 nav-wrapper ${menuOpen ? 'show' : ''}`}>
             <nav className="nav justify-content-center">
               {categories.map((category) => (
                 <NavLink
                   key={category.id}
                   to={`/artisans/category/${category.id}`}
                   className="nav-link"
+                  onClick={() => setMenuOpen(false)}
                 >
                   {category.nom}
                 </NavLink>
@@ -40,7 +56,8 @@ const Header = ({ categories }) => {
             </nav>
           </div>
           
-          <div className="col-md-3">
+          {/* Recherche */}
+          <div className="col-12 col-md-3 mt-3 mt-md-0">
             <form onSubmit={handleSearch} className="search-box">
               <input
                 type="text"

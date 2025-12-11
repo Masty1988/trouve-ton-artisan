@@ -1,5 +1,5 @@
-const { Sequelize } = require('sequelize');
-require('dotenv').config();
+const { Sequelize } = require("sequelize");
+require("dotenv").config();
 
 const sequelize = new Sequelize(
   process.env.DB_NAME,
@@ -8,14 +8,22 @@ const sequelize = new Sequelize(
   {
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
-    dialect: 'mysql',
-    logging: false, // Mettre à 'console.log' pour debug
+    charset: "utf8mb4",
+    collation: "utf8mb4_unicode_ci",
+    dialect: "mysql",
+    logging: process.env.NODE_ENV === "development" ? console.log : false,
     pool: {
       max: 5,
       min: 0,
       acquire: 30000,
-      idle: 10000
-    }
+      idle: 10000,
+    },
+    define: {
+      timestamps: true,
+      underscored: true,
+      charset: "utf8mb4",
+      collate: "utf8mb4_unicode_ci",
+    },
   }
 );
 
@@ -23,9 +31,17 @@ const sequelize = new Sequelize(
 const testConnection = async () => {
   try {
     await sequelize.authenticate();
-    console.log('✅ Connexion MySQL réussie');
+    console.log("✅ Connexion MySQL réussie");
   } catch (error) {
-    console.error('❌ Erreur connexion MySQL:', error);
+    console.error("❌ Erreur connexion MySQL:", {
+      message: error.message,
+      code: error.original?.code,
+      errno: error.original?.errno,
+      sqlState: error.original?.sqlState,
+      sqlMessage: error.original?.sqlMessage,
+      sql: error.original?.sql,
+    });
+    throw error;
   }
 };
 
