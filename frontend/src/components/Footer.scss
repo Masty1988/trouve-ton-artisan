@@ -1,18 +1,123 @@
 .footer {
+  background: #0074c7;
+  color: white;
+  padding: 3rem 0 2rem;
+  margin-top: 4rem;
+  position: relative;
+  
+  // Bulle triangle (pointe vers le haut)
+  &::before {
+    content: '';
+    position: absolute;
+    top: -30px;
+    left: 15%;
+    width: 0;
+    height: 0;
+    border-left: 30px solid transparent;
+    border-right: 30px solid transparent;
+    border-bottom: 30px solid #0074c7;
+  }
+  
+  // Ligne 1 : Logo + Adresse
+  .footer-top {
+    margin-bottom: 2rem;
+  }
+  
+  .region-info {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    
+    @media (max-width: 767px) {
+      justify-content: center;
+    }
+    
+    .region-logo {
+      max-width: 300px;
+      height: auto;
+
+      @media (max-width: 767px) {
+
+        max-width: 200px;
+        
+      }
+    }
+    
+    .region-text {
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+  }
+  
   h5 {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     font-weight: 600;
     margin-bottom: 1rem;
   }
   
-  .small {
-    font-size: 0.9rem;
-    line-height: 1.6;
+  p {
+    margin-bottom: 0.25rem;
+    font-size: 0.95rem;
   }
   
-  ul {
+  // Ligne horizontale
+  .footer-divider {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    margin: 2rem 0;
+  }
+  
+  // Liens légaux (horizontaux)
+  .footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+    
+    @media (max-width: 767px) {
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+    
     li {
-      margin-bottom: 0.5rem;
+      margin: 0;
+    }
+    
+    a {
+      color: white;
+      text-decoration: none;
+      font-size: 0.95rem;
+      
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+  
+  // Réseaux sociaux
+  .social-icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    
+    .social-icon {
+      color: white;
+      transition: transform 0.2s, opacity 0.2s;
+      
+      &:hover {
+        transform: scale(1.1);
+        opacity: 0.8;
+      }
+      
+      svg {
+        width: 40px;
+        height: 40px;
+      }
     }
   }
 }

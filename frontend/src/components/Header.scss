@@ -1,38 +1,69 @@
 .header {
   position: relative;
-
+  padding: 1rem 0;
+  
+  .header-top {
+    margin-bottom: 0rem;
+  }
+  .logo-img {
+    max-height: 250px;
+    width: auto;
+    
+    @media (max-width: 767px) {
+      max-height: 200px;
+    }
+  }
   .logo-text {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     font-weight: 700;
     color: #00497c;
     margin: 0;
     line-height: 1.2;
-
+    
+    @media (max-width: 767px) {
+      font-size: 1rem;
+    }
+    
     small {
       display: block;
-      font-size: 0.6rem;
+      font-size: 0.55rem;
       font-weight: 400;
       color: #0074c7;
       margin-top: 0.2rem;
     }
   }
-
+  
   .logo-link {
     text-decoration: none;
   }
-
+  
+  // Loupe mobile
+  .search-toggle-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #00497c;
+    cursor: pointer;
+    padding: 0.25rem;
+    
+    &:hover {
+      color: #0074c7;
+    }
+  }
+  
   // Burger button
   .burger-btn {
     background: none;
     border: none;
     width: 30px;
     height: 24px;
-    display: flex;
+    display: inline-flex;
     flex-direction: column;
     justify-content: space-between;
     cursor: pointer;
     padding: 0;
-
+    vertical-align: middle;
+    
     span {
       width: 100%;
       height: 3px;
@@ -40,77 +71,111 @@
       border-radius: 3px;
       transition: all 0.3s;
     }
-
+    
     &:hover span {
       background: #0074c7;
     }
   }
-
-  // Navigation wrapper (mobile)
+  
+  // Navigation wrapper
   .nav-wrapper {
     @media (max-width: 767px) {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      background: white;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       max-height: 0;
       overflow: hidden;
       transition: max-height 0.3s ease;
-
+      
       &.show {
         max-height: 400px;
       }
-
-      .nav {
-        flex-direction: column;
-        padding: 1rem 0;
-
-        .nav-link {
-          padding: 0.75rem 1.5rem;
-          width: 100%;
-          text-align: center;
-          border-bottom: 1px solid #f0f0f0;
-
-          &:last-child {
-            border-bottom: none;
-          }
-        }
-      }
     }
   }
-
-  // Navigation (desktop)
+  
+  // Navigation
   .nav {
     display: flex;
-
+    
+    @media (max-width: 767px) {
+      flex-direction: column;
+      border-top: none;
+      padding-top: 0;
+    }
+    
+    .nav-item {
+      position: relative;
+    }
+    
     .nav-link {
       color: #333;
       font-weight: 500;
-      margin: 0 1rem;
+      font-size: 0.95rem;
+      padding: 0 1rem;
       text-decoration: none;
-
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      
+      @media (min-width: 768px) and (max-width: 991px) {
+        font-size: 0.85rem;
+        padding: 0.5rem 0.75rem;
+      }
+      
+      @media (max-width: 767px) {
+        padding: 0.75rem 1.5rem;
+        width: 100%;
+        justify-content: space-between;
+        border-bottom: 1px solid #f0f0f0;
+      }
+      
+      .chevron {
+        font-size: 0.7rem;
+        transition: transform 0.2s;
+      }
+      
       &:hover {
         color: #0074c7;
+        
+        .chevron {
+          transform: translateY(2px);
+        }
       }
-
+      
       &.active {
         color: #00497c;
         font-weight: 600;
       }
     }
   }
-
+  
   // Search box
   .search-box {
+    position: relative;
+    
     input {
       border-radius: 20px;
       border: 1px solid #ddd;
-
+      padding-right: 2.5rem;
+      
       &:focus {
         border-color: #0074c7;
         box-shadow: 0 0 0 0.2rem rgba(0, 116, 199, 0.25);
+        outline: none;
+      }
+    }
+    
+    .search-btn {
+      position: absolute;
+      right: 0.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      color: #00497c;
+      cursor: pointer;
+      padding: 0.25rem;
+      
+      &:hover {
+        color: #0074c7;
       }
     }
   }
