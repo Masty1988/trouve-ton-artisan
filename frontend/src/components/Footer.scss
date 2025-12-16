@@ -3,75 +3,84 @@
   color: white;
   padding: 3rem 0 2rem;
   margin-top: 4rem;
-  position: relative;
   
-  // Bulle triangle (pointe vers le haut)
-  &::before {
-    content: '';
-    position: absolute;
-    top: -30px;
-    left: 15%;
-    width: 0;
-    height: 0;
-    border-left: 30px solid transparent;
-    border-right: 30px solid transparent;
-    border-bottom: 30px solid #0074c7;
-  }
-  
-  // Ligne 1 : Logo + Adresse
-  .footer-top {
+  .footer-main {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 4rem;
     margin-bottom: 2rem;
+    
+    @media (max-width: 767px) {
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+      text-align: center;
+    }
   }
   
   .region-info {
-    display: flex;
-    align-items: flex-start;
-    gap: 1.5rem;
-    
-    @media (max-width: 767px) {
-      justify-content: center;
-    }
-    
     .region-logo {
-      max-width: 300px;
+      max-width: 200px;
       height: auto;
 
       @media (max-width: 767px) {
-
-        max-width: 200px;
-        
+        max-width: 160px;
       }
     }
     
     .region-text {
       font-size: 0.9rem;
       line-height: 1.4;
+      margin-top: 0.75rem;
     }
   }
   
-  h5 {
-    font-size: 1.2rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
+  .contact-info {
+    h5 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+    
+    .address-block,
+    .phone-block {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+      
+      @media (max-width: 767px) {
+        justify-content: center;
+      }
+      
+      svg {
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+      
+      p {
+        margin: 0;
+        font-size: 0.9rem;
+        line-height: 1.4;
+      }
+    }
+    
+    .phone-block {
+      align-items: center;
+    }
   }
   
-  p {
-    margin-bottom: 0.25rem;
-    font-size: 0.95rem;
-  }
-  
-  // Ligne horizontale
   .footer-divider {
     border: none;
     border-top: 1px solid rgba(255, 255, 255, 0.3);
-    margin: 2rem 0;
+    margin: 1.5rem 0;
   }
   
-  // Liens légaux (horizontaux)
   .footer-links {
     list-style: none;
     padding: 0;
-    margin: 0;
+    margin: 0 0 1.5rem 0;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
@@ -80,44 +89,66 @@
     @media (max-width: 767px) {
       flex-direction: column;
       align-items: center;
-      gap: 1rem;
-    }
-    
-    li {
-      margin: 0;
+      gap: 0.75rem;
     }
     
     a {
       color: white;
       text-decoration: none;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       
       &:hover {
         text-decoration: underline;
       }
     }
   }
+}
+
+.social-band {
+  background: white;
+  padding: 1.5rem 0;
+  margin: 0;
   
-  // Réseaux sociaux
   .social-icons {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 2rem;
     
+    @media (max-width: 767px) {
+      gap: 1.25rem;
+    }
+    
     .social-icon {
-      color: white;
+      color: #1a1a1a;
       transition: transform 0.2s, opacity 0.2s;
       
       &:hover {
         transform: scale(1.1);
-        opacity: 0.8;
+        opacity: 0.7;
       }
       
       svg {
-        width: 40px;
-        height: 40px;
+        width: 32px;
+        height: 32px;
+        
+        @media (max-width: 767px) {
+          width: 26px;
+          height: 26px;
+        }
       }
     }
   }
+}
+// Forcer le fond blanc après le footer
+html {
+  background-color: white !important;
+}
+
+body {
+  background-color: white !important;
+}
+
+.App {
+  background-color: white !important;
 }

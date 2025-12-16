@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { getCategories } from './services/api';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -11,20 +10,22 @@ import NotFound from './pages/NotFound';
 import EnConstruction from './pages/EnConstruction';
 import './styles/main.scss';
 
+// Catégories mockées
+const MOCK_CATEGORIES = [
+  { id: 1, nom: "Alimentation" },
+  { id: 2, nom: "Bâtiment" },
+  { id: 3, nom: "Fabrication" },
+  { id: 4, nom: "Services" }
+];
+
 function App() {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await getCategories();
-        setCategories(response.data);
-      } catch (error) {
-        console.error('Erreur chargement catégories:', error);
-      }
-    };
-
-    fetchCategories();
+    // Simule un chargement
+    setTimeout(() => {
+      setCategories(MOCK_CATEGORIES);
+    }, 100);
   }, []);
 
   return (
@@ -46,13 +47,13 @@ function App() {
             {/* Fiche artisan */}
             <Route path="/artisan/:id" element={<FicheArtisan />} />
             
-            {/* Pages légales */}
-            <Route path="/mentions-legales" element={<EnConstruction />} />
-            <Route path="/donnees-personnelles" element={<EnConstruction />} />
-            <Route path="/accessibilite" element={<EnConstruction />} />
-            <Route path="/cookies" element={<EnConstruction />} />
+            {/* Pages légales - En construction */}
+            <Route path="/mentions-legales" element={<EnConstruction title="Mentions légales" />} />
+            <Route path="/donnees-personnelles" element={<EnConstruction title="Données personnelles" />} />
+            <Route path="/accessibilite" element={<EnConstruction title="Accessibilité" />} />
+            <Route path="/cookies" element={<EnConstruction title="Cookies" />} />
             
-            {/* Page 404 */}
+            {/* 404 */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>

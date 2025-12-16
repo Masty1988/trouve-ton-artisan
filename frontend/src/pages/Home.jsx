@@ -1,7 +1,31 @@
 import { useState, useEffect } from 'react';
-import { getTopArtisans } from '../services/api';
 import ArtisanCard from '../components/ArtisanCard';
 import './Home.scss';
+
+// Données mockées pour les screenshots
+const MOCK_TOP_ARTISANS = [
+  {
+    id: 5,
+    nom: "Orville Samons",
+    note: "5.0",
+    ville: "Évian",
+    specialite: { id: 5, nom: "Chauffagiste" }
+  },
+  {
+    id: 4,
+    nom: "Chocolaterie Labbé",
+    note: "4.9",
+    ville: "Lyon",
+    specialite: { id: 4, nom: "Chocolatier" }
+  },
+  {
+    id: 3,
+    nom: "Au Pain Chaud",
+    note: "4.8",
+    ville: "Montélimar",
+    specialite: { id: 3, nom: "Boulanger" }
+  }
+];
 
 const Home = () => {
   const [topArtisans, setTopArtisans] = useState([]);
@@ -9,19 +33,11 @@ const Home = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchTopArtisans = async () => {
-      try {
-        const response = await getTopArtisans();
-        setTopArtisans(response.data);
-      } catch (err) {
-        setError('Erreur lors du chargement des artisans');
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchTopArtisans();
+    // Simule un chargement
+    setTimeout(() => {
+      setTopArtisans(MOCK_TOP_ARTISANS);
+      setLoading(false);
+    }, 500);
   }, []);
 
   if (loading) {
@@ -43,49 +59,42 @@ const Home = () => {
   }
 
   return (
-    <div className="home">
+    <main className="home">
       <div className="container">
         {/* Section Comment trouver */}
-        <section className="how-to-find mt-5">
-          <h2 className="text-center mb-4">Comment trouver mon artisan ?</h2>
-          
+        <section className="how-to-find">
+          <h2>Comment trouver mon artisan ?</h2>
           <div className="steps">
             <div className="step">
-              <div className="step-number">1</div>
+              <span className="step-number">1</span>
               <p>Choisissez la catégorie d'artisanat dans le menu</p>
             </div>
-            
             <div className="step">
-              <div className="step-number">2</div>
+              <span className="step-number">2</span>
               <p>Choisir un artisan</p>
             </div>
-            
             <div className="step">
-              <div className="step-number">3</div>
+              <span className="step-number">3</span>
               <p>Le contacter via le formulaire de contact</p>
             </div>
-            
             <div className="step">
-              <div className="step-number">4</div>
+              <span className="step-number">4</span>
               <p>Une réponse sera apportée sous 48h</p>
             </div>
           </div>
         </section>
 
         {/* Section Top 3 */}
-        <section className="top-artisans mt-5">
-          <h2 className="text-center mb-4">Top 3 du mois</h2>
-          
-          <div className="row g-4">
+        <section className="top-artisans">
+          <h2>Top 3 du mois</h2>
+          <div className="artisans-grid">
             {topArtisans.map((artisan) => (
-              <div key={artisan.id} className="col-md-4">
-                <ArtisanCard artisan={artisan} />
-              </div>
+              <ArtisanCard key={artisan.id} artisan={artisan} />
             ))}
           </div>
         </section>
       </div>
-    </div>
+    </main>
   );
 };
 

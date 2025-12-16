@@ -66,56 +66,32 @@ body {
   }
 }
 
-// ============================================
-// FOOTER AVEC EFFET BULLE
-// ============================================
-.footer {
-  background: $light-blue;
-  color: $white;
-  padding: 3rem 0 2rem;
-  margin-top: 4rem;
-  position: relative;
+// // ============================================
+// // FOOTER 
+// // ============================================
+// .footer {
+//   background: $light-blue;
+//   color: $white;
+//   padding: 3rem 0 2rem;
+//   margin-top: 4rem;
+//   position: relative;
   
-  // Effet bulle de conversation
-  &::before {
-    content: '';
-    position: absolute;
-    top: -40px;
-    left: 0;
-    right: 0;
-    height: 40px;
-    background: $bg-white;
-    border-radius: 0 0 50px 50px;
-  }
   
-  // Petites pointes de bulle (optionnel)
-  &::after {
-    content: '';
-    position: absolute;
-    top: -20px;
-    left: 10%;
-    width: 0;
-    height: 0;
-    border-left: 20px solid transparent;
-    border-right: 20px solid transparent;
-    border-bottom: 20px solid $light-blue;
-  }
-  
-  a {
-    color: $white;
-    text-decoration: none;
+//   a {
+//     color: $white;
+//     text-decoration: none;
     
-    &:hover {
-      color: $primary-blue;
-    }
-  }
-}
+//     &:hover {
+//       color: $primary-blue;
+//     }
+//   }
+// }
 
 // ============================================
 // CARDS ARTISANS
 // ============================================
 .artisan-card {
-  border: 2px solid $primary-blue;
+  border: 5px solid $primary-blue;
   border-radius: 15px;
   padding: 1.5rem;
   background: $bg-white;
@@ -123,17 +99,37 @@ body {
   transition: transform 0.2s, box-shadow 0.2s;
   cursor: pointer;
   height: 100%;
-  
+
+  // --- MODIFICATIONS POUR LE POSITIONNEMENT ---
+  display: flex;
+  flex-direction: column;
+  // 'space-between' pousse le premier élément tout en haut
+  // et le dernier tout en bas.
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  // -------------------------------
+
   &:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 20px rgba(0, 116, 199, 0.3);
   }
   
+  // Nouveau style pour le bloc du haut
+  .artisan-info-top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    // Ajoute un peu d'espace en bas si besoin
+    margin-bottom: 1rem; 
+  }
+
   .artisan-name {
     font-size: 1.25rem;
     font-weight: 600;
     color: $charcoal;
     margin-bottom: 0.5rem;
+    text-transform: uppercase; // Pour correspondre à l'exemple
   }
   
   .artisan-specialite {
@@ -145,6 +141,9 @@ body {
   .artisan-location {
     color: $text-color;
     font-size: 0.9rem;
+    text-transform: uppercase; // Pour correspondre à l'exemple
+    // Supprime la marge inférieure pour qu'il colle au bas
+    margin-bottom: 0; 
   }
 }
 
