@@ -1,21 +1,21 @@
 import axios from 'axios';
 
-// URL de l'API - à adapter selon l'environnement
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+// URL de l'API backend
+const backendUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
 
-const api = axios.create({
-  baseURL: API_URL,
+const httpClient = axios.create({
+  baseURL: backendUrl,
   headers: {
     'Content-Type': 'application/json'
   }
 });
 
-// Intercepteur pour logger les erreurs
-api.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    console.error('Erreur API:', error.response?.data || error.message);
-    return Promise.reject(error);
+// Gestion des erreurs HTTP
+httpClient.interceptors.response.use(
+  (res) => res,
+  (err) => {
+    console.error('Erreur API:', err.response?.data || err.message);
+    return Promise.reject(err);
   }
 );
 
@@ -23,45 +23,45 @@ api.interceptors.response.use(
 // CATEGORIES
 // ============================================
 
-export const getCategories = async () => {
-  const response = await api.get('/categories');
-  return response.data;
+export const fetchCategories = async () => {
+  const result = await httpClient.get('/categories');
+  return result.data;
 };
 
-export const getCategoryById = async (id) => {
-  const response = await api.get(`/categories/${id}`);
-  return response.data;
+export const fetchCategoryDetails = async (id) => {
+  const result = await httpClient.get(`/categories/${id}`);
+  return result.data;
 };
 
 // ============================================
 // ARTISANS
 // ============================================
 
-export const getArtisans = async () => {
-  const response = await api.get('/artisans');
-  return response.data;
+export const fetchArtisansList = async () => {
+  const result = await httpClient.get('/artisans');
+  return result.data;
 };
 
-export const getArtisanById = async (id) => {
-  const response = await api.get(`/artisans/${id}`);
-  return response.data;
+export const fetchArtisanDetails = async (id) => {
+  const result = await httpClient.get(`/artisans/${id}`);
+  return result.data;
 };
 
-export const getTopArtisans = async () => {
-  const response = await api.get('/artisans/top');
-  return response.data;
+export const fetchTopArtisans = async () => {
+  const result = await httpClient.get('/artisans/top');
+  return result.data;
 };
 
-export const getArtisansByCategory = async (categoryId) => {
-  const response = await api.get(`/artisans/category/${categoryId}`);
-  return response.data;
+export const fetchArtisansByCategory = async (categoryId) => {
+  const result = await httpClient.get(`/artisans/category/${categoryId}`);
+  return result.data;
 };
 
-export const searchArtisans = async (query) => {
-  const response = await api.get(`/artisans/search`, {
-    params: { q: query }
+export const searchArtisansByKeyword = async (searchQuery) => {
+  const result = await httpClient.get(`/artisans/search`, {
+    params: { q: searchQuery }
   });
-  return response.data;
+  return result.data;
 };
 
-export default api;
+export default httpClient;

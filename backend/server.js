@@ -2,22 +2,22 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 
-const { testConnection } = require("./config/database");
-const routes = require("./routes");
-const { limiter, helmetConfig } = require("./middleware/security");
+const { verifyDatabaseConnection } = require("./config/database");
+const apiRoutes = require("./routes");
+const { rateLimiter, securityHeaders } = require("./middleware/security");
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const serverPort = process.env.PORT || 3000;
 
 // ============================================
 // SÉCURITÉ
 // ============================================
 
 // Helmet - Sécurise les headers HTTP
-app.use(helmetConfig);
+app.use(securityHeaders);
 
 // Rate limiting global
-app.use("/api/", limiter);
+app.use("/api/", rateLimiter);
 
 // ============================================
 // MIDDLEWARE
@@ -62,7 +62,7 @@ app.get("/", (req, res) => {
 });
 
 // Routes API
-app.use("/api", routes);
+app.use("/api", apiRoutes);
 
 // Route 404
 app.use((req, res) => {
@@ -88,15 +88,15 @@ app.use((err, req, res, next) => {
 // DÉMARRAGE SERVEUR
 // ============================================
 
-const startServer = async () => {
+const launchServer = async () => {
   try {
     // Test connexion BDD
-    await testConnection();
+    await verifyDatabaseConnection();
 
     // Démarrage serveur
-    app.listen(PORT, () => {
-      console.log(`🚀 Serveur démarré sur http://localhost:${PORT}`);
-      console.log(`📝 Documentation API: http://localhost:${PORT}`);
+    app.listen(serverPort, () => {
+      console.log(`🚀 Serveur démarré sur http://localhost:${serverPort}`);
+      console.log(`📝 Documentation API: http://localhost:${serverPort}`);
       console.log(`🔒 Sécurité: Helmet + Rate Limiting activés`);
     });
   } catch (error) {
@@ -105,4 +105,4 @@ const startServer = async () => {
   }
 };
 
-startServer();
+launchServer();

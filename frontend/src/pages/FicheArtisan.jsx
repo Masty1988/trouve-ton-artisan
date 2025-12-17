@@ -1,79 +1,79 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { getArtisanById } from '../services/api';
+import { fetchArtisanDetails } from '../services/api';
 import './FicheArtisan.scss';
 
 const FicheArtisan = () => {
   const { id } = useParams();
-  const [artisan, setArtisan] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [formData, setFormData] = useState({
+  const [craftsmanData, setCraftsmanData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [errorMsg, setErrorMsg] = useState(null);
+  const [contactForm, setContactForm] = useState({
     nom: '',
     email: '',
     objet: '',
     message: ''
   });
-  const [formSubmitted, setFormSubmitted] = useState(false);
+  const [wasSubmitted, setWasSubmitted] = useState(false);
 
   useEffect(() => {
-    const fetchArtisan = async () => {
+    const loadArtisan = async () => {
       try {
-        const response = await getArtisanById(id);
-        setArtisan(response.data);
+        const result = await fetchArtisanDetails(id);
+        setCraftsmanData(result.data);
       } catch (err) {
-        setError('Artisan non trouvé');
+        setErrorMsg('Artisan non trouvé');
         console.error(err);
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     };
 
-    fetchArtisan();
+    loadArtisan();
   }, [id]);
 
-  const handleInputChange = (e) => {
+  const updateFormField = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
+    setContactForm(prevData => ({
+      ...prevData,
       [name]: value
     }));
   };
 
-  const handleSubmit = (e) => {
+  const processFormSubmit = (e) => {
     e.preventDefault();
     // TODO: Envoyer email (à implémenter avec nodemailer côté backend)
-    console.log('Formulaire soumis:', formData);
-    setFormSubmitted(true);
-    
+    console.log('Formulaire soumis:', contactForm);
+    setWasSubmitted(true);
+
     // Reset form après 3 secondes
     setTimeout(() => {
-      setFormData({ nom: '', email: '', objet: '', message: '' });
-      setFormSubmitted(false);
+      setContactForm({ nom: '', email: '', objet: '', message: '' });
+      setWasSubmitted(false);
     }, 3000);
   };
 
-  const renderStars = (note) => {
-    const stars = [];
-    const fullStars = Math.floor(note);
-    const hasHalfStar = note % 1 !== 0;
-    
-    for (let i = 0; i < fullStars; i++) {
-      stars.push(<span key={i} className="star">⭐</span>);
+  const displayStars = (rating) => {
+    const starElements = [];
+    const completeStars = Math.floor(rating);
+    const showHalfStar = rating % 1 !== 0;
+
+    for (let i = 0; i < completeStars; i++) {
+      starElements.push(<span key={i} className="star">⭐</span>);
     }
-    
-    if (hasHalfStar && stars.length < 5) {
-      stars.push(<span key="half" className="star">⭐</span>);
+
+    if (showHalfStar && starElements.length < 5) {
+      starElements.push(<span key="half" className="star">⭐</span>);
     }
-    
-    while (stars.length < 5) {
-      stars.push(<span key={`empty-${stars.length}`} className="star">☆</span>);
+
+    while (starElements.length < 5) {
+      starElements.push(<span key={`empty-${starElements.length}`} className="star">☆</span>);
     }
-    
-    return stars;
+
+    return starElements;
   };
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="container mt-5 text-center">
         <div className="spinner-border text-primary" role="status">
@@ -83,10 +83,10 @@ const FicheArtisan = () => {
     );
   }
 
-  if (error || !artisan) {
+  if (errorMsg || !craftsmanData) {
     return (
       <div className="container mt-5">
-        <div className="alert alert-danger">{error}</div>
+        <div className="alert alert-danger">{errorMsg}</div>
         <Link to="/" className="btn btn-primary">Retour à l'accueil</Link>
       </div>
     );
@@ -102,12 +102,12 @@ const FicheArtisan = () => {
               <Link to="/">Accueil</Link>
             </li>
             <li className="breadcrumb-item">
-              <Link to={`/artisans/category/${artisan.specialite?.category?.id}`}>
-                {artisan.specialite?.category?.nom}
+              <Link to={`/artisans/category/${craftsmanData.specialite?.category?.id}`}>
+                {craftsmanData.specialite?.category?.nom}
               </Link>
             </li>
             <li className="breadcrumb-item active" aria-current="page">
-              {artisan.nom}
+              {craftsmanData.nom}
             </li>
           </ol>
         </nav>
@@ -116,35 +116,35 @@ const FicheArtisan = () => {
           <div className="col-lg-8">
             {/* Informations artisan */}
             <div className="artisan-header mb-4">
-              <h1>{artisan.nom}</h1>
-              
+              <h1>{craftsmanData.nom}</h1>
+
               <div className="stars mb-2">
-                {renderStars(parseFloat(artisan.note))}
-                <span className="ms-2 text-muted">{artisan.note}/5</span>
+                {displayStars(parseFloat(craftsmanData.note))}
+                <span className="ms-2 text-muted">{craftsmanData.note}/5</span>
               </div>
-              
+
               <p className="text-muted mb-1">
-                <strong>Spécialité :</strong> {artisan.specialite?.nom}
+                <strong>Spécialité :</strong> {craftsmanData.specialite?.nom}
               </p>
-              
+
               <p className="text-muted mb-3">
-                <strong>Localisation :</strong> 📍 {artisan.ville}
+                <strong>Localisation :</strong> 📍 {craftsmanData.ville}
               </p>
             </div>
 
             {/* À propos */}
             <div className="about-section mb-4">
               <h2>À propos</h2>
-              <p>{artisan.a_propos}</p>
+              <p>{craftsmanData.a_propos}</p>
             </div>
 
             {/* Site web */}
-            {artisan.site_web && (
+            {craftsmanData.site_web && (
               <div className="website-section mb-4">
                 <h3>Site web</h3>
-                <a 
-                  href={artisan.site_web} 
-                  target="_blank" 
+                <a
+                  href={craftsmanData.site_web}
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="btn btn-outline-primary"
                 >
@@ -157,14 +157,14 @@ const FicheArtisan = () => {
           <div className="col-lg-4">
             {/* Formulaire de contact */}
             <div className="contact-form-box">
-              <h3>Contacter {artisan.nom}</h3>
-              
-              {formSubmitted ? (
+              <h3>Contacter {craftsmanData.nom}</h3>
+
+              {wasSubmitted ? (
                 <div className="alert alert-success">
                   Message envoyé ! Vous recevrez une réponse sous 48h.
                 </div>
               ) : (
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={processFormSubmit}>
                   <div className="mb-3">
                     <label htmlFor="nom" className="form-label">Nom *</label>
                     <input
@@ -172,8 +172,8 @@ const FicheArtisan = () => {
                       className="form-control"
                       id="nom"
                       name="nom"
-                      value={formData.nom}
-                      onChange={handleInputChange}
+                      value={contactForm.nom}
+                      onChange={updateFormField}
                       required
                     />
                   </div>
@@ -185,8 +185,8 @@ const FicheArtisan = () => {
                       className="form-control"
                       id="email"
                       name="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
+                      value={contactForm.email}
+                      onChange={updateFormField}
                       required
                     />
                   </div>
@@ -198,8 +198,8 @@ const FicheArtisan = () => {
                       className="form-control"
                       id="objet"
                       name="objet"
-                      value={formData.objet}
-                      onChange={handleInputChange}
+                      value={contactForm.objet}
+                      onChange={updateFormField}
                       required
                     />
                   </div>
@@ -211,8 +211,8 @@ const FicheArtisan = () => {
                       id="message"
                       name="message"
                       rows="5"
-                      value={formData.message}
-                      onChange={handleInputChange}
+                      value={contactForm.message}
+                      onChange={updateFormField}
                       required
                     ></textarea>
                   </div>

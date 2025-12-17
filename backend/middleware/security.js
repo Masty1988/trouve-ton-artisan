@@ -1,8 +1,8 @@
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 
-// Rate limiting - Limite les requêtes par IP
-const limiter = rateLimit({
+// Limitation générale des requêtes par IP
+const rateLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // Limite à 100 requêtes par fenêtre
   message: {
@@ -13,8 +13,8 @@ const limiter = rateLimit({
   legacyHeaders: false
 });
 
-// Rate limiting strict pour la recherche (évite le spam)
-const searchLimiter = rateLimit({
+// Limitation stricte pour les recherches (éviter le spam)
+const searchRateLimiter = rateLimit({
   windowMs: 1 * 60 * 1000, // 1 minute
   max: 20, // 20 recherches par minute max
   message: {
@@ -23,8 +23,8 @@ const searchLimiter = rateLimit({
   }
 });
 
-// Configuration Helmet pour sécuriser les headers HTTP
-const helmetConfig = helmet({
+// Configuration des headers HTTP sécurisés avec Helmet
+const securityHeaders = helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
@@ -37,7 +37,7 @@ const helmetConfig = helmet({
 });
 
 module.exports = {
-  limiter,
-  searchLimiter,
-  helmetConfig
+  rateLimiter,
+  searchRateLimiter,
+  securityHeaders
 };

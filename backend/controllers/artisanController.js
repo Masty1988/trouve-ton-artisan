@@ -2,9 +2,9 @@ const { Artisan, Specialite, Category } = require('../models');
 const { Op } = require('sequelize');
 
 // GET /api/artisans - Récupérer tous les artisans
-exports.getAllArtisans = async (req, res) => {
+exports.fetchAllArtisans = async (req, res) => {
   try {
-    const artisans = await Artisan.findAll({
+    const craftsmen = await Artisan.findAll({
       include: [{
         model: Specialite,
         as: 'specialite',
@@ -20,10 +20,10 @@ exports.getAllArtisans = async (req, res) => {
 
     res.json({
       success: true,
-      data: artisans
+      data: craftsmen
     });
-  } catch (error) {
-    console.error('Erreur getAllArtisans:', error);
+  } catch (err) {
+    console.error('Erreur fetchAllArtisans:', err);
     res.status(500).json({
       success: false,
       message: 'Erreur serveur lors de la récupération des artisans'
@@ -32,11 +32,11 @@ exports.getAllArtisans = async (req, res) => {
 };
 
 // GET /api/artisans/:id - Récupérer un artisan par ID
-exports.getArtisanById = async (req, res) => {
+exports.findArtisanById = async (req, res) => {
   try {
     const { id } = req.params;
-    
-    const artisan = await Artisan.findByPk(id, {
+
+    const craftsman = await Artisan.findByPk(id, {
       include: [{
         model: Specialite,
         as: 'specialite',
@@ -49,7 +49,7 @@ exports.getArtisanById = async (req, res) => {
       }]
     });
 
-    if (!artisan) {
+    if (!craftsman) {
       return res.status(404).json({
         success: false,
         message: 'Artisan non trouvé'
@@ -58,10 +58,10 @@ exports.getArtisanById = async (req, res) => {
 
     res.json({
       success: true,
-      data: artisan
+      data: craftsman
     });
-  } catch (error) {
-    console.error('Erreur getArtisanById:', error);
+  } catch (err) {
+    console.error('Erreur findArtisanById:', err);
     res.status(500).json({
       success: false,
       message: 'Erreur serveur'
@@ -70,9 +70,9 @@ exports.getArtisanById = async (req, res) => {
 };
 
 // GET /api/artisans/top - Récupérer les 3 artisans du mois
-exports.getTopArtisans = async (req, res) => {
+exports.fetchTopRatedArtisans = async (req, res) => {
   try {
-    const artisans = await Artisan.findAll({
+    const topCraftsmen = await Artisan.findAll({
       where: { top: true },
       include: [{
         model: Specialite,
@@ -85,10 +85,10 @@ exports.getTopArtisans = async (req, res) => {
 
     res.json({
       success: true,
-      data: artisans
+      data: topCraftsmen
     });
-  } catch (error) {
-    console.error('Erreur getTopArtisans:', error);
+  } catch (err) {
+    console.error('Erreur fetchTopRatedArtisans:', err);
     res.status(500).json({
       success: false,
       message: 'Erreur serveur'
@@ -97,11 +97,11 @@ exports.getTopArtisans = async (req, res) => {
 };
 
 // GET /api/artisans/category/:categoryId - Artisans par catégorie
-exports.getArtisansByCategory = async (req, res) => {
+exports.listArtisansByCategory = async (req, res) => {
   try {
     const { categoryId } = req.params;
 
-    const artisans = await Artisan.findAll({
+    const craftsmenList = await Artisan.findAll({
       include: [{
         model: Specialite,
         as: 'specialite',
@@ -119,10 +119,10 @@ exports.getArtisansByCategory = async (req, res) => {
 
     res.json({
       success: true,
-      data: artisans
+      data: craftsmenList
     });
-  } catch (error) {
-    console.error('Erreur getArtisansByCategory:', error);
+  } catch (err) {
+    console.error('Erreur listArtisansByCategory:', err);
     res.status(500).json({
       success: false,
       message: 'Erreur serveur'
@@ -131,21 +131,21 @@ exports.getArtisansByCategory = async (req, res) => {
 };
 
 // GET /api/artisans/search?q=... - Recherche par nom
-exports.searchArtisans = async (req, res) => {
+exports.searchArtisansByName = async (req, res) => {
   try {
-    const { q } = req.query;
+    const { q: searchTerm } = req.query;
 
-    if (!q || q.trim().length === 0) {
+    if (!searchTerm || searchTerm.trim().length === 0) {
       return res.status(400).json({
         success: false,
         message: 'Paramètre de recherche manquant'
       });
     }
 
-    const artisans = await Artisan.findAll({
+    const results = await Artisan.findAll({
       where: {
         nom: {
-          [Op.like]: `%${q}%`
+          [Op.like]: `%${searchTerm}%`
         }
       },
       include: [{
@@ -163,10 +163,10 @@ exports.searchArtisans = async (req, res) => {
 
     res.json({
       success: true,
-      data: artisans
+      data: results
     });
-  } catch (error) {
-    console.error('Erreur searchArtisans:', error);
+  } catch (err) {
+    console.error('Erreur searchArtisansByName:', err);
     res.status(500).json({
       success: false,
       message: 'Erreur serveur'

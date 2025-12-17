@@ -4,9 +4,9 @@ const categoryController = require('../controllers/categoryController');
 const { validateId } = require('../middleware/validator');
 
 // GET /api/categories - Toutes les catégories
-router.get('/', categoryController.getAllCategories);
+router.get('/', categoryController.fetchAllCategories);
 
 // GET /api/categories/:id - Une catégorie par ID
-router.get('/:id', validateId, categoryController.getCategoryById);
+router.get('/:id', validateId, categoryController.findCategoryById);
 
 module.exports = router;

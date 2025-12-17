@@ -1,39 +1,39 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { getArtisansByCategory, getCategoryById } from '../services/api';
+import { fetchArtisansByCategory, fetchCategoryDetails } from '../services/api';
 import ArtisanCard from '../components/ArtisanCard';
 import './ListeArtisans.scss';
 
 const ListeArtisans = () => {
   const { categoryId } = useParams();
-  const [artisans, setArtisans] = useState([]);
-  const [category, setCategory] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [craftsmenList, setCraftsmenList] = useState([]);
+  const [categoryInfo, setCategoryInfo] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [errorMsg, setErrorMsg] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const loadPageData = async () => {
       try {
-        setLoading(true);
-        const [artisansResponse, categoryResponse] = await Promise.all([
-          getArtisansByCategory(categoryId),
-          getCategoryById(categoryId)
+        setIsLoading(true);
+        const [craftsmenResult, categoryResult] = await Promise.all([
+          fetchArtisansByCategory(categoryId),
+          fetchCategoryDetails(categoryId)
         ]);
-        
-        setArtisans(artisansResponse.data);
-        setCategory(categoryResponse.data);
+
+        setCraftsmenList(craftsmenResult.data);
+        setCategoryInfo(categoryResult.data);
       } catch (err) {
-        setError('Erreur lors du chargement des artisans');
+        setErrorMsg('Erreur lors du chargement des artisans');
         console.error(err);
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     };
 
-    fetchData();
+    loadPageData();
   }, [categoryId]);
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="container mt-5 text-center">
         <div className="spinner-border text-primary" role="status">
@@ -43,10 +43,10 @@ const ListeArtisans = () => {
     );
   }
 
-  if (error) {
+  if (errorMsg) {
     return (
       <div className="container mt-5">
-        <div className="alert alert-danger">{error}</div>
+        <div className="alert alert-danger">{errorMsg}</div>
       </div>
     );
   }
@@ -61,22 +61,22 @@ const ListeArtisans = () => {
               <a href="/">Accueil</a>
             </li>
             <li className="breadcrumb-item active" aria-current="page">
-              {category?.nom}
+              {categoryInfo?.nom}
             </li>
           </ol>
         </nav>
 
-        <h1 className="mb-4">Nos artisans - {category?.nom}</h1>
+        <h1 className="mb-4">Nos artisans - {categoryInfo?.nom}</h1>
 
-        {artisans.length === 0 ? (
+        {craftsmenList.length === 0 ? (
           <div className="alert alert-info">
             Aucun artisan trouvé dans cette catégorie.
           </div>
         ) : (
           <div className="row g-4">
-            {artisans.map((artisan) => (
-              <div key={artisan.id} className="col-md-4">
-                <ArtisanCard artisan={artisan} />
+            {craftsmenList.map((craftsman) => (
+              <div key={craftsman.id} className="col-md-4">
+                <ArtisanCard artisan={craftsman} />
               </div>
             ))}
           </div>
