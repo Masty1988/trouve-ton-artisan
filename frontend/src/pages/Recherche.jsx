@@ -1,40 +1,40 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
-import { searchArtisans } from '../services/api';
+import { searchArtisansByKeyword } from '../services/api';
 import ArtisanCard from '../components/ArtisanCard';
 import './Recherche.scss';
 
 const Recherche = () => {
   const [searchParams] = useSearchParams();
-  const query = searchParams.get('q');
-  const [artisans, setArtisans] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const searchKeyword = searchParams.get('q');
+  const [searchResults, setSearchResults] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [errorMsg, setErrorMsg] = useState(null);
 
   useEffect(() => {
-    const fetchResults = async () => {
-      if (!query || query.trim().length < 2) {
-        setError('Veuillez entrer au moins 2 caractères');
-        setLoading(false);
+    const loadSearchResults = async () => {
+      if (!searchKeyword || searchKeyword.trim().length < 2) {
+        setErrorMsg('Veuillez entrer au moins 2 caractères');
+        setIsLoading(false);
         return;
       }
 
       try {
-        setLoading(true);
-        const response = await searchArtisans(query);
-        setArtisans(response.data);
+        setIsLoading(true);
+        const result = await searchArtisansByKeyword(searchKeyword);
+        setSearchResults(result.data);
       } catch (err) {
-        setError('Erreur lors de la recherche');
+        setErrorMsg('Erreur lors de la recherche');
         console.error(err);
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     };
 
-    fetchResults();
-  }, [query]);
+    loadSearchResults();
+  }, [searchKeyword]);
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="container mt-5 text-center">
         <div className="spinner-border text-primary" role="status">
@@ -60,12 +60,12 @@ const Recherche = () => {
         </nav>
 
         <h1 className="mb-4">
-          Résultats de recherche pour "{query}"
+          Résultats de recherche pour "{searchKeyword}"
         </h1>
 
-        {error ? (
-          <div className="alert alert-danger">{error}</div>
-        ) : artisans.length === 0 ? (
+        {errorMsg ? (
+          <div className="alert alert-danger">{errorMsg}</div>
+        ) : searchResults.length === 0 ? (
           <div className="alert alert-info">
             Aucun artisan trouvé pour cette recherche.
             <br />
@@ -76,13 +76,13 @@ const Recherche = () => {
         ) : (
           <>
             <p className="text-muted mb-4">
-              {artisans.length} artisan{artisans.length > 1 ? 's' : ''} trouvé{artisans.length > 1 ? 's' : ''}
+              {searchResults.length} artisan{searchResults.length > 1 ? 's' : ''} trouvé{searchResults.length > 1 ? 's' : ''}
             </p>
-            
+
             <div className="row g-4">
-              {artisans.map((artisan) => (
-                <div key={artisan.id} className="col-md-4">
-                  <ArtisanCard artisan={artisan} />
+              {searchResults.map((craftsman) => (
+                <div key={craftsman.id} className="col-md-4">
+                  <ArtisanCard artisan={craftsman} />
                 </div>
               ))}
             </div>

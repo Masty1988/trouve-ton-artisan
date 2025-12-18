@@ -1,7 +1,7 @@
 const { Sequelize } = require("sequelize");
 require("dotenv").config();
 
-const sequelize = new Sequelize(
+const database = new Sequelize(
   process.env.DB_NAME,
   process.env.DB_USER,
   process.env.DB_PASS,
@@ -27,22 +27,22 @@ const sequelize = new Sequelize(
   }
 );
 
-// Test de connexion
-const testConnection = async () => {
+// Vérification connexion base de données
+const verifyDatabaseConnection = async () => {
   try {
-    await sequelize.authenticate();
+    await database.authenticate();
     console.log("✅ Connexion MySQL réussie");
-  } catch (error) {
+  } catch (err) {
     console.error("❌ Erreur connexion MySQL:", {
-      message: error.message,
-      code: error.original?.code,
-      errno: error.original?.errno,
-      sqlState: error.original?.sqlState,
-      sqlMessage: error.original?.sqlMessage,
-      sql: error.original?.sql,
+      message: err.message,
+      code: err.original?.code,
+      errno: err.original?.errno,
+      sqlState: err.original?.sqlState,
+      sqlMessage: err.original?.sqlMessage,
+      sql: err.original?.sql,
     });
-    throw error;
+    throw err;
   }
 };
 
-module.exports = { sequelize, testConnection };
+module.exports = { sequelize: database, verifyDatabaseConnection };

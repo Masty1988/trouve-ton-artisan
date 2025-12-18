@@ -1,9 +1,9 @@
 const { Category, Specialite } = require('../models');
 
 // GET /api/categories - Récupérer toutes les catégories
-exports.getAllCategories = async (req, res) => {
+exports.fetchAllCategories = async (req, res) => {
   try {
-    const categories = await Category.findAll({
+    const categoriesList = await Category.findAll({
       include: [{
         model: Specialite,
         as: 'specialites',
@@ -14,10 +14,10 @@ exports.getAllCategories = async (req, res) => {
 
     res.json({
       success: true,
-      data: categories
+      data: categoriesList
     });
-  } catch (error) {
-    console.error('Erreur getAllCategories:', error);
+  } catch (err) {
+    console.error('Erreur fetchAllCategories:', err);
     res.status(500).json({
       success: false,
       message: 'Erreur serveur lors de la récupération des catégories'
@@ -26,11 +26,11 @@ exports.getAllCategories = async (req, res) => {
 };
 
 // GET /api/categories/:id - Récupérer une catégorie par ID
-exports.getCategoryById = async (req, res) => {
+exports.findCategoryById = async (req, res) => {
   try {
     const { id } = req.params;
-    
-    const category = await Category.findByPk(id, {
+
+    const categoryData = await Category.findByPk(id, {
       include: [{
         model: Specialite,
         as: 'specialites',
@@ -38,7 +38,7 @@ exports.getCategoryById = async (req, res) => {
       }]
     });
 
-    if (!category) {
+    if (!categoryData) {
       return res.status(404).json({
         success: false,
         message: 'Catégorie non trouvée'
@@ -47,10 +47,10 @@ exports.getCategoryById = async (req, res) => {
 
     res.json({
       success: true,
-      data: category
+      data: categoryData
     });
-  } catch (error) {
-    console.error('Erreur getCategoryById:', error);
+  } catch (err) {
+    console.error('Erreur findCategoryById:', err);
     res.status(500).json({
       success: false,
       message: 'Erreur serveur'

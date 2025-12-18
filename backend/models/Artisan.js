@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
-const { sequelize } = require('../config/database');
+const { sequelize: database } = require('../config/database');
 
-const Artisan = sequelize.define('Artisan', {
+const ArtisanModel = database.define('Artisan', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -54,4 +54,4 @@ const Artisan = sequelize.define('Artisan', {
   updatedAt: 'updated_at'
 });
 
-module.exports = Artisan;
+module.exports = ArtisanModel;

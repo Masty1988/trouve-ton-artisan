@@ -1,46 +1,30 @@
 import { useState, useEffect } from 'react';
+import { fetchTopArtisans } from '../services/api';
 import ArtisanCard from '../components/ArtisanCard';
 import './Home.scss';
 
-// Données mockées pour les screenshots
-const MOCK_TOP_ARTISANS = [
-  {
-    id: 5,
-    nom: "Orville Samons",
-    note: "5.0",
-    ville: "Évian",
-    specialite: { id: 5, nom: "Chauffagiste" }
-  },
-  {
-    id: 4,
-    nom: "Chocolaterie Labbé",
-    note: "4.9",
-    ville: "Lyon",
-    specialite: { id: 4, nom: "Chocolatier" }
-  },
-  {
-    id: 3,
-    nom: "Au Pain Chaud",
-    note: "4.8",
-    ville: "Montélimar",
-    specialite: { id: 3, nom: "Boulanger" }
-  }
-];
-
 const Home = () => {
-  const [topArtisans, setTopArtisans] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [featuredArtisans, setFeaturedArtisans] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [errorMsg, setErrorMsg] = useState(null);
 
   useEffect(() => {
-    // Simule un chargement
-    setTimeout(() => {
-      setTopArtisans(MOCK_TOP_ARTISANS);
-      setLoading(false);
-    }, 500);
+    const loadTopArtisans = async () => {
+      try {
+        const result = await fetchTopArtisans();
+        setFeaturedArtisans(result.data);
+      } catch (err) {
+        setErrorMsg('Erreur lors du chargement des artisans');
+        console.error(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadTopArtisans();
   }, []);
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="container mt-5 text-center">
         <div className="spinner-border text-primary" role="status">
@@ -50,10 +34,10 @@ const Home = () => {
     );
   }
 
-  if (error) {
+  if (errorMsg) {
     return (
       <div className="container mt-5">
-        <div className="alert alert-danger">{error}</div>
+        <div className="alert alert-danger">{errorMsg}</div>
       </div>
     );
   }
@@ -88,8 +72,8 @@ const Home = () => {
         <section className="top-artisans">
           <h2>Top 3 du mois</h2>
           <div className="artisans-grid">
-            {topArtisans.map((artisan) => (
-              <ArtisanCard key={artisan.id} artisan={artisan} />
+            {featuredArtisans.map((craftsman) => (
+              <ArtisanCard key={craftsman.id} artisan={craftsman} />
             ))}
           </div>
         </section>

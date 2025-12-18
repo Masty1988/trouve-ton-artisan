@@ -1,30 +1,30 @@
-const Category = require('./Category');
-const Specialite = require('./Specialite');
-const Artisan = require('./Artisan');
+const CategoryModel = require('./Category');
+const SpecialiteModel = require('./Specialite');
+const ArtisanModel = require('./Artisan');
 
-// Associations
-Category.hasMany(Specialite, { 
+// Relations entre les modèles
+CategoryModel.hasMany(SpecialiteModel, {
   foreignKey: 'categorie_id',
   as: 'specialites'
 });
 
-Specialite.belongsTo(Category, { 
+SpecialiteModel.belongsTo(CategoryModel, {
   foreignKey: 'categorie_id',
   as: 'category'
 });
 
-Specialite.hasMany(Artisan, { 
+SpecialiteModel.hasMany(ArtisanModel, {
   foreignKey: 'specialite_id',
   as: 'artisans'
 });
 
-Artisan.belongsTo(Specialite, { 
+ArtisanModel.belongsTo(SpecialiteModel, {
   foreignKey: 'specialite_id',
   as: 'specialite'
 });
 
 module.exports = {
-  Category,
-  Specialite,
-  Artisan
+  Category: CategoryModel,
+  Specialite: SpecialiteModel,
+  Artisan: ArtisanModel
 };

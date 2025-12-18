@@ -1,0 +1,206 @@
+# ============================================
+# DONNÉES SENSIBLES
+# ============================================
+
+# Variables d'environnement
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+*.env
+
+# Fichiers de configuration sensibles
+backend/.env
+frontend/.env
+
+# Credentials et secrets
+**/credentials.json
+**/secrets.json
+*.pem
+*.key
+*.cert
+
+# ============================================
+# CLAUDE AI
+# ============================================
+
+# Dossier Claude
+.claude/
+claude/
+.claude-code/
+
+# ============================================
+# NODE.JS / NPM
+# ============================================
+
+# Dependencies
+node_modules/
+**/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Package locks (optionnel - décommenter si nécessaire)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# ============================================
+# FRONTEND (VITE / REACT)
+# ============================================
+
+# Build outputs
+frontend/dist/
+frontend/dist-ssr/
+frontend/build/
+*.local
+
+# Vite cache
+frontend/.vite/
+frontend/vite.config.js.timestamp-*
+
+# ESLint cache
+.eslintcache
+
+# ============================================
+# BACKEND
+# ============================================
+
+# Logs
+logs/
+*.log
+backend/logs/
+
+# Coverage
+coverage/
+*.lcov
+.nyc_output/
+
+# ============================================
+# BASE DE DONNÉES
+# ============================================
+
+# Fichiers SQLite (si utilisé)
+*.sqlite
+*.sqlite3
+*.db
+
+# Dumps SQL locaux
+*.sql.gz
+**/dumps/
+backup/
+
+# ============================================
+# SYSTÈME D'EXPLOITATION
+# ============================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Linux
+*~
+.directory
+.Trash-*
+
+# ============================================
+# ÉDITEURS / IDE
+# ============================================
+
+# VSCode
+.vscode/
+*.code-workspace
+.history/
+
+# JetBrains (WebStorm, IntelliJ, etc.)
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+
+# ============================================
+# DIVERS
+# ============================================
+
+# Fichiers temporaires
+tmp/
+temp/
+*.tmp
+*.bak
+*.backup
+
+# Archives
+*.zip
+*.tar
+*.tar.gz
+*.rar
+*.7z
+
+# Screenshots (si vous ne voulez pas les versionner)
+screenshot/
+screenshots/
+*.png
+*.jpg
+*.jpeg
+!public/**/*.png
+!public/**/*.jpg
+!public/**/*.jpeg
+
+# Tests
+*.test.local
+
+# Cache
+.cache/
+.parcel-cache/
+
+# TypeScript
+*.tsbuildinfo
+
+# Optional: Dependency directories
+jspm_packages/
+
+# Optional: Build tools
+.grunt
+bower_components
+
+# Yarn
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
