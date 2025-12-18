@@ -7,6 +7,7 @@ const apiRoutes = require("./routes");
 const { rateLimiter, securityHeaders } = require("./middleware/security");
 
 const app = express();
+app.set('trust proxy', 1);
 const serverPort = process.env.PORT || 3000;
 
 // ============================================
